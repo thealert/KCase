@@ -184,5 +184,4 @@ java -jar target/mycasemind-webapp.jar
   <img src="doc/6.多主题支持.png" alt="多主题支持" width="960" />
 </p>
 
-
 用例编辑基础能力基于 [AgileTC](https://github.com/didi/AgileTC) 项目
