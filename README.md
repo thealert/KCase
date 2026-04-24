@@ -120,7 +120,7 @@ cd docker && docker compose up --build -d
 
 | 组件 | 版本 |
 | --- | --- |
-| Node.js | ≥ 12.0.0 |
+| Node.js | ≥ 12.0.0 <= 16 |
 | JDK | 1.8 |
 | Maven | 3.x |
 | MySQL | 5.7（推荐） |
