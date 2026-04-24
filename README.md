@@ -95,7 +95,7 @@
 **步骤**：
 
 ```bash
-# 1. 构建前端产物
+# 1. 构建前端产物，推荐Node 14，可以用nvm安装14版本切换后执行，如nvm install 14.15.0
 cd casemind_front && npm install && npm run build && cd ..
 
 # 2. 复制配置模板，并按需修改数据库密码、AI 配置和端口
