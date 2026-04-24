@@ -15,11 +15,13 @@
 2. 检查并补齐 casemind-backend/src/main/resource `application-dev.properties` 中的数据库账号密码
 3. 启动后端 cd casemind-backend && mvn spring-boot:run
 4. 启动前端 cd casemind-front && npm install && npm run start
-5. ai生成能力（支持openai通用接口调用），配置casemind-backend/src/main/resource `application-dev.properties`下的
+5. ai生成能力（支持 openai 通用接口调用），配置 `casemind_backend/src/main/resources/application-dev.properties` 中的以下参数：
 
+```properties
 ai.openai.base-url=
 ai.openai.api-key=
 ai.openai.model-name=
+```
 
 ## 环境要求
 
