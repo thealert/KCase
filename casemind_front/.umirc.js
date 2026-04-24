@@ -156,7 +156,7 @@ const chainWebpack = config => {
 export default {
   base: '/mycasemind-cms/',
   publicPath: '/mycasemind-cms/',
-  outputPath: '/dist/mycasemind-cms/',
+  outputPath: 'dist/mycasemind-cms/',
   define: {
 	  // 'process.env.APIURL': APIURL,
     'cversion':'测试用例管理平台 V'
