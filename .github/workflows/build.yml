@@ -6,6 +6,9 @@ on:
       - main
   pull_request:
 
+permissions:
+  contents: write
+
 jobs:
   frontend:
     name: Frontend Build
@@ -29,6 +32,18 @@ jobs:
 
       - name: Build frontend
         run: npm run build
+
+      - name: Commit frontend dist
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.actor != 'github-actions[bot]'
+        working-directory: .
+        run: |
+          git add casemind_front/dist
+          if git diff --cached --quiet; then
+            echo "No dist changes to commit"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "chore: update frontend dist [skip ci]"
+          git push
 
       - name: Upload frontend dist artifact
         uses: actions/upload-artifact@v4
