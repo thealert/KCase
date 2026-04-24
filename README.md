@@ -69,6 +69,12 @@ ai.openai.model-name=
 - Maven
 - MySQL
 
+### 架构
+
+<p align="center">
+  <img src="doc/architecture.png" alt="架构" width="960" />
+</p>
+
 ## 前端构建与启动
 
 前端目录：
