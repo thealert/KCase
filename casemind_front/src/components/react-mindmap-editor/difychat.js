@@ -29,6 +29,13 @@ const { nanoid } = require('nanoid');
 // 注册JSON语言
 SyntaxHighlighter.registerLanguage('json', json);
 
+const getWorkerScriptUrl = () => {
+  const routerBase = typeof window !== 'undefined' && window.routerBase ? window.routerBase : '/';
+  const normalizedBase = routerBase.endsWith('/') ? routerBase : `${routerBase}/`;
+
+  return `${normalizedBase}worker.js`;
+};
+
 // 通用复制功能函数
 const copyToClipboard = (text) => {
   return new Promise((resolve, reject) => {
@@ -957,13 +964,8 @@ const AIChat = React.forwardRef(({ visible, onClose, minder, theme }, ref) => {
           timer.current.terminate(); // 终止现有的 Web Worker
         }
 
-        if (window.location.host.includes('local')) {
-          // 创建 Web Worker
-          timer.current = new Worker('/worker.js');
-        } else {
-          // 创建 Web Worker
-          timer.current = new Worker('/mycasemind-cms/worker.js');
-        }
+        // 统一根据运行时路由基路径加载 Worker，避免 Docker 下命中后端代理
+        timer.current = new Worker(getWorkerScriptUrl());
         timer.current.postMessage({ interval: loopTime }); // 发送间隔时间
 
 
