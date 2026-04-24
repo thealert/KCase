@@ -1,0 +1,24 @@
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Frontend
+casemind_front/node_modules/
+casemind_front/dist/
+casemind_front/.umi/
+casemind_front/.umi-production/
+casemind_front/.cache/
+casemind_front/src/pages/.umi/
+
+# Backend
+casemind_backend/target/
+casemind_backend/logs/
+casemind_backend/.idea/
+
+# Runtime
+*.log
+*.pid
+*.tmp

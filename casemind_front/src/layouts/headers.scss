@@ -1,0 +1,38 @@
+
+
+
+.page-switch-button:hover {
+  color: #40a9ff !important;
+}
+.page-switch-button[disabled] {
+  color: #ffffff !important;
+}
+.page-switch-button {
+  color: #c8c8c8 !important;
+  font-size: 17px;
+}
+.page-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 64px;
+}
+.custom-menu {
+  //line-height: 40px;
+  background-color: rgb(51, 119, 255);
+
+  .ant-menu-item {
+    color: silver;
+    border-bottom: 2px solid silver;
+  }
+
+  .ant-menu-item:hover {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+  }
+
+  .ant-menu-item-selected {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+  }
+}

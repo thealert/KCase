@@ -1,0 +1,22 @@
+.dark-select .ant-select-selection {
+    background-color: #232323 !important; /* 你想要的背景色 */
+    border-color: #d5d5d5;
+    color: #d5d5d5;
+  }
+  
+.dark-select .ant-select-arrow {
+color: #d5d5d5; /* 设置为白色 */
+}
+
+.dark-select-disable .ant-select-selection{
+    background-color: #292929 !important; /* 你想要的背景色 */
+    border-color: #d5d5d5;
+    color: #686868;
+}
+.dark-select-disable .ant-select-arrow {
+    color: #686868; /* 设置为白色 */
+    }
+
+.dark-theme-button:hover {
+background-color: grey !important; /* 你想要的悬停背景颜色 */  
+}

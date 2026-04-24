@@ -1,0 +1,144 @@
+  
+ 
+
+.handlecss.ReactVirtualized__Table__rowColumn {
+   
+  border-left: 1px solid #D3D3D3 !important;
+  box-shadow: -3px 0 5px -5px rgba(0, 0, 0, 0.5);
+  align-content: center;
+
+  height: 100%;
+   
+
+  // &:last-child {
+  //     border-right: none;
+  // }
+}
+
+
+
+  .ColCss{
+    color: #1890ff !important;
+    display: flex;
+  align-items: center; /* 让内容垂直居中 */
+  justify-content: center; 
+    // align-self: flex-start !important;
+    // margin-top: 20px;
+    font-weight: bold;
+  }
+  .bottom-left-button {
+    position: fixed;
+    bottom: 40px;
+    right: 10px;
+    opacity: 0.7;
+    z-index: 999999;
+  }
+  .ReactVirtualized__Table__row  {
+    border-bottom: 1px solid #ccc;
+  }
+  
+
+  .odd {
+    background-color: #fff;
+    vertical-align: top;
+
+     
+  }
+  .even {
+    background-color: rgba(250, 250, 250, 1);
+    vertical-align: top;
+
+  }
+
+  
+  .ReactVirtualized__Table__headerRow {
+  background-color: white;
+}
+
+  .ant-table-body-inner{
+    margin-top: 16px
+  }
+   .ant-row {
+    margin-top: 2px !important;
+   }
+
+//  .ant-back-top {
+//     bottom: 10px;
+//     left: 20px;
+//   }
+
+
+  .ant-table-row-cell-break-word{
+    padding-bottom: 2px !important;
+    padding-top: 2px !important;
+  }
+
+  .ant-table table{
+    background: white;
+    color: #17191A;
+  }
+
+  .ant-table thead {
+    display: none;
+  }  
+
+  .radio-red.ant-radio-button-wrapper-checked {
+    background: red !important;
+    // color: white !important;
+    border-color: red !important;
+    box-shadow: -1px 0 0 0 red !important;
+  }
+  .radio-green.ant-radio-button-wrapper-checked {
+    background: green !important;
+    // color: white !important;
+    border-color: green !important;
+    box-shadow: -1px 0 0 0 green !important;
+  }
+  .radio-blue.ant-radio-button-wrapper-checked {
+    background: orange !important;
+    // color: white !important;
+    border-color: orange !important;
+    box-shadow: -1px 0 0 0 orange !important;
+  }
+
+
+  
+//   .radio-red.ant-radio-wrapper-checked .ant-radio-inner::after {
+//     background-color: red;
+//   }
+  
+//   .radio-green.ant-radio-wrapper-checked .ant-radio-inner {
+//     border-color: green;
+//   }
+  
+//   .radio-green.ant-radio-wrapper-checked .ant-radio-inner::after {
+//     background-color: green;
+//   }
+  
+//   .radio-blue.ant-radio-wrapper-checked .ant-radio-inner {
+//     border-color: blue;
+//   }
+  
+//   .radio-blue.ant-radio-wrapper-checked .ant-radio-inner::after {
+//     background-color: blue;
+//   }
+
+  
+//   .failed {
+//     .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+//         background-color: red ;
+//         border-color: red  ;
+//         box-shadow: -1px 0 0 0 red;
+//     }
+//   }
+//   .pending .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+//     background-color: orange  ;
+//     border-color: orange  ;
+//     box-shadow: -1px 0 0 0 orange;
+//   }
+//   .passed .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+//     background-color: rgb(7, 133, 61)  ;
+//     border-color: rgb(7, 133, 61)  ;
+//     box-shadow: -1px 0 0 0 rgb(7, 133, 61);
+//   }
+  

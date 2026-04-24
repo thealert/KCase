@@ -1,0 +1,20 @@
+.custom-tree-node .ant-tree-node-selected{
+    background-color: #4d4d4d !important;
+    color: yellow !important;
+}
+
+.custom-tree-node .ant-tree-node-content-wrapper:hover{
+    background-color: grey !important;
+     
+}
+
+.outline-drag-handle {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    
+    &:active {
+        cursor: move;
+    }
+}

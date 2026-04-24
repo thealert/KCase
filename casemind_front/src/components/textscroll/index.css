@@ -1,0 +1,20 @@
+.marquee_box {
+    width: 100%;
+    height: 20px;
+    overflow: hidden;
+    word-break: keep-all;
+    white-space: nowrap;
+    /* display: flex; */
+    align-items: center;
+    transition: transform 3s ease;
+  }
+  
+  .marquee_box p {
+    display: inline-block;
+  }
+  
+  .marquee_box:hover p {
+    animation-play-state: paused;
+    cursor: default;
+  }
+  

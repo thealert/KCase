@@ -1,0 +1,15 @@
+.km-btn-item.undo:after {
+  content: '撤销';
+  color: #1890ff;
+}
+.km-btn-item.redo:after {
+  content: '重做';
+  color: #1890ff;
+}
+.km-btn-item {
+  height: 24px;
+}
+
+.dark-theme-button:hover {
+  background-color: grey !important; /* 你想要的悬停背景颜色 */  
+}
