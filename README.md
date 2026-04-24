@@ -150,4 +150,4 @@ java -jar target/mycasemind-webapp.jar
 </p>
 
 
-用例编辑基础能力基于AgileTC项目
+用例编辑基础能力基于 [AgileTC](https://github.com/didi/AgileTC) 项目
