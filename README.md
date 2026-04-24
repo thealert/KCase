@@ -1,7 +1,7 @@
 # KCase
 
 <p align="center">
-  <img src="doc/kcase_info" alt="poster" width="960" />
+  <img src="doc/kcase_info.png" alt="poster" width="960" />
 </p>
 
 ## 项目结构
