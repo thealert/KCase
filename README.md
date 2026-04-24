@@ -1,6 +1,4 @@
-# KCase
-
-[![Build](https://github.com/thealert/KCase/actions/workflows/build.yml/badge.svg)](https://github.com/thealert/KCase/actions/workflows/build.yml)
+# KCase [![Build](https://github.com/thealert/KCase/actions/workflows/build.yml/badge.svg)](https://github.com/thealert/KCase/actions/workflows/build.yml)
 
 <p align="center">
   <img src="doc/kcase_info.png" alt="poster" width="960" />
