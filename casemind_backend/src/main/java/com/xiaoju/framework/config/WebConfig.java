@@ -4,11 +4,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig {
 
     @Bean
     public RestTemplate restTemplate() {
@@ -26,22 +31,31 @@ public class WebConfig implements WebMvcConfigurer {
         return restTemplate;
     }
 
+    @Bean
+    public OncePerRequestFilter corsFilter() {
+        return new OncePerRequestFilter() {
+            @Override
+            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+                    throws ServletException, IOException {
+                String origin = request.getHeader("Origin");
+                if (origin != null && !origin.isEmpty()) {
+                    response.setHeader("Access-Control-Allow-Origin", origin);
+                    response.setHeader("Vary", "Origin");
+                    response.setHeader("Access-Control-Allow-Credentials", "true");
+                    response.setHeader("Access-Control-Allow-Methods", "GET,HEAD,POST,PUT,DELETE,OPTIONS");
+                    response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers") != null
+                            ? request.getHeader("Access-Control-Request-Headers")
+                            : "*");
+                    response.setHeader("Access-Control-Max-Age", "3600");
+                }
 
-    /**
-     * 跨域配置处理
-     */
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
+                if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    return;
+                }
 
-        registry.addMapping("/**")
-                .allowedOrigins(
-                        "http://localhost:8000",
-                        "http://localhost:8443",
-                        "http://127.0.0.1:8443"
-                )
-                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowCredentials(true)
-                .maxAge(3600)
-                .allowedHeaders("*");
+                filterChain.doFilter(request, response);
+            }
+        };
     }
 }
