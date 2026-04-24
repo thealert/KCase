@@ -4,6 +4,22 @@
   <img src="doc/kcase_info.png" alt="poster" width="960" />
 </p>
 
+## Docker 一键运行
+
+当前仓库已支持通过 Docker 启动 `frontend + backend + mysql` 三个服务。
+
+启动前请先完成以下准备：
+
+1. 构建前端产物：`cd casemind_front && npm install && npm run build`
+2. 复制配置模板：`cp docker/.env.example docker/.env`
+3. 按需修改 `docker/.env` 中的数据库密码、AI 配置和端口映射
+4. 启动容器：`cd docker && docker compose up --build -d`
+
+默认访问地址：
+
+- 前端页面：`http://localhost:8443/mycasemind-cms/`
+- MySQL 映射端口：`3308`
+
 ## 项目结构
 
 - `casemind_front`：前端项目，基于 `Umi 2 + React`

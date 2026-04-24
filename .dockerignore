@@ -1,0 +1,14 @@
+.git
+.DS_Store
+README.md
+doc
+
+casemind_front/node_modules
+casemind_front/.umi
+casemind_front/.umi-production
+casemind_front/.cache
+casemind_front/src/pages/.umi
+
+casemind_backend/target
+casemind_backend/logs
+casemind_backend/.idea

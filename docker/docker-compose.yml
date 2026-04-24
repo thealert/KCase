@@ -1,0 +1,65 @@
+services:
+  mysql:
+    platform: linux/amd64
+    image: mysql:5.7
+    container_name: kcase-mysql
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - kcase_mysql_data:/var/lib/mysql
+      - ../casemind_backend/sql/case_manager.sql:/docker-entrypoint-initdb.d/01-case_manager.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: kcase-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: dev
+      SERVER_PORT: ${BACKEND_INTERNAL_PORT}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+      AUTHORITY_FLAG: ${AUTHORITY_FLAG}
+      WEB_UPLOAD_PATH: /data/uploads/
+      AI_OPENAI_BASE_URL: ${AI_OPENAI_BASE_URL}
+      AI_OPENAI_API_KEY: ${AI_OPENAI_API_KEY}
+      AI_OPENAI_MODEL_NAME: ${AI_OPENAI_MODEL_NAME}
+      AI_OPENAI_CHAT_COMPLETIONS_PATH: ${AI_OPENAI_CHAT_COMPLETIONS_PATH}
+    expose:
+      - "${BACKEND_INTERNAL_PORT}"
+    volumes:
+      - kcase_uploads:/data/uploads
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/frontend.Dockerfile
+    container_name: kcase-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT}:80"
+
+volumes:
+  kcase_mysql_data:
+  kcase_uploads:

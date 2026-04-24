@@ -13,6 +13,9 @@ casemind_front/.umi-production/
 casemind_front/.cache/
 casemind_front/src/pages/.umi/
 
+# Docker local config
+docker/.env
+
 # Backend
 casemind_backend/target/
 casemind_backend/logs/
