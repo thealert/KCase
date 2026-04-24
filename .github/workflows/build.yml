@@ -37,7 +37,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.actor != 'github-actions[bot]'
         working-directory: .
         run: |
-          git add casemind_front/dist
+          git add -f casemind_front/dist
           if git diff --cached --quiet; then
             echo "No dist changes to commit"
             exit 0
