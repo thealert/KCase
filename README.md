@@ -95,15 +95,12 @@
 **步骤**：
 
 ```bash
-# 1. 如果不修改代码可以跳过这步，github会自动构建 构建前端产物：推荐Node 14，可以用nvm安装14版本切换后执行，如nvm install 14.15.0 , nvm use 14.15.0
-cd casemind_front && npm install && npm run build && cd ..
-
-# 2. 复制配置模板，并按需修改数据库密码、AI 配置和端口
+# 1. 复制配置模板，并按需修改数据库密码、AI 配置（可选）和端口（可选）
 cp docker/.env.example docker/.env
 
-# 3. 启动容器
+# 2. 启动容器
 cd docker && docker compose up --build -d
-#  3.1 后续运行
+#  2.1 后续运行
    cd docker && docker compose up -d
 ```
 
