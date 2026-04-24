@@ -103,6 +103,8 @@ cp docker/.env.example docker/.env
 
 # 3. 启动容器
 cd docker && docker compose up --build -d
+#  3.1 后续运行
+   cd docker && docker compose up -d
 ```
 
 **默认访问地址**：
