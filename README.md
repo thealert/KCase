@@ -31,53 +31,41 @@
 
 ### 功能预览
 
-<details>
-<summary><b>1. 用例管理</b> — 状态流转与快捷操作</summary>
+#### 1. 用例管理 — 状态流转与快捷操作
 
 <p align="center">
   <img src="doc/1.用例管理.png" alt="用例管理" width="960" />
 </p>
-</details>
 
-<details>
-<summary><b>2. 用例编辑</b> — 脑图式结构化设计</summary>
+#### 2. 用例编辑 — 脑图式结构化设计
 
 <p align="center">
   <img src="doc/2.用例编辑.png" alt="用例编辑" width="960" />
 </p>
-</details>
 
-<details>
-<summary><b>3. 用例执行</b> — 实时进度与通过率</summary>
+#### 3. 用例执行 — 实时进度与通过率
 
 <p align="center">
   <img src="doc/3.用例执行.png" alt="用例执行" width="960" />
 </p>
-</details>
 
-<details>
-<summary><b>4. AI 生成用例</b> — 智能补全测试点</summary>
+#### 4. AI 生成用例 — 智能补全测试点
 
 <p align="center">
   <img src="doc/4.用例AI生成.png" alt="用例AI生成" width="960" />
 </p>
-</details>
 
-<details>
-<summary><b>5. 历史备份</b> — 版本追溯与恢复</summary>
+#### 5. 历史备份 — 版本追溯与恢复
 
 <p align="center">
   <img src="doc/5.历史备份.png" alt="历史备份" width="960" />
 </p>
-</details>
 
-<details>
-<summary><b>6. 多主题支持</b> — 浅色 / 深色切换</summary>
+#### 6. 多主题支持 — 浅色 / 深色切换
 
 <p align="center">
   <img src="doc/6.多主题支持.png" alt="多主题支持" width="960" />
 </p>
-</details>
 
 ---
 
