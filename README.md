@@ -95,7 +95,7 @@ java -jar target/mycasemind-webapp.jar
 - 用户名：`root`
 - 密码：需要按本地环境填写
 
-用例编辑基础能力基于AgileTC项目
+
 
 ## 功能界面预览
 
@@ -103,33 +103,49 @@ java -jar target/mycasemind-webapp.jar
 
 用于查看用例列表、状态流转、创建人和操作入口，支持从列表页快速进入执行、编辑和维护流程。
 
-
+<p align="center">
+  <img src="doc/1.用例管理.png" alt="用例管理" width="960" />
+</p>
 
 ### 2. 用例编辑
 
 提供脑图式的测试用例编辑能力，支持节点拆分、标签管理、优先级标记和结构化维护，适合复杂场景下的测试设计。
 
-
+<p align="center">
+  <img src="doc/2.用例编辑.png" alt="用例编辑" width="960" />
+</p>
 
 ### 3. 用例执行
 
 支持执行视图下的用例流转与结果记录，可结合通过率、执行进度和节点状态进行实时跟踪。
 
-
+<p align="center">
+  <img src="doc/3.用例执行.png" alt="用例执行" width="960" />
+</p>
 
 ### 4. 用例 AI 生成
 
 内置 AI 辅助能力，可围绕当前节点或业务场景补充测试点、生成用例内容，并辅助测试设计完善。
 
-
+<p align="center">
+  <img src="doc/4.用例AI生成.png" alt="用例AI生成" width="960" />
+</p>
 
 ### 5. 历史备份
 
 支持查看历史备份记录，便于回溯不同版本的编辑结果，满足追踪、审计和恢复场景。
 
-
+<p align="center">
+  <img src="doc/5.历史备份.png" alt="历史备份" width="960" />
+</p>
 
 ### 6. 多主题支持
 
 支持浅色与深色等多主题界面切换，方便在不同使用场景下获得更舒适的视觉体验。
 
+<p align="center">
+  <img src="doc/6.多主题支持.png" alt="多主题支持" width="960" />
+</p>
+
+
+用例编辑基础能力基于AgileTC项目
