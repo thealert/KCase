@@ -48,4 +48,4 @@ jobs:
           cache: maven
 
       - name: Build backend
-        run: mvn -B clean package -DskipTests
+        run: mvn -B clean package -Dmaven.test.skip=true
