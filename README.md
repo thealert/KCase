@@ -4,190 +4,192 @@
   <img src="doc/kcase_info.png" alt="poster" width="960" />
 </p>
 
-## Docker 一键运行
+<p align="center">
+  一款支持 <b>脑图式编辑</b> 与 <b>AI 辅助生成</b> 的测试用例管理平台
+</p>
 
-当前仓库已支持通过 Docker 启动 `frontend + backend + mysql` 三个服务。
+<p align="center">
+  <a href="#-核心功能">核心功能</a> ·
+  <a href="#-架构">架构</a> ·
+  <a href="#-快速开始docker-一键部署">快速开始</a> ·
+  <a href="#-本地开发">本地开发</a> ·
+  <a href="#-项目结构">项目结构</a>
+</p>
 
-请先确保本机已安装 Docker 环境，并可正常使用 `docker` 与 `docker compose` 命令（macOS / Windows 推荐直接安装 Docker Desktop；Linux 推荐安装 Docker Engine 与 Docker Compose Plugin，并确保 Docker 服务已启动）。
+---
 
-启动前请先完成以下准备：
+## ✨ 核心功能
 
-1. 构建前端产物：
+| 能力 | 说明 |
+| --- | --- |
+| 📋 **用例管理** | 列表视图支持状态流转、创建人筛选、快捷操作入口 |
+| 🌳 **脑图式编辑** | 节点拆分、标签、优先级标记，适合复杂场景的结构化设计 |
+| ▶️ **用例执行** | 实时跟踪通过率、执行进度、节点状态 |
+| 🤖 **AI 辅助生成** | 基于当前节点或业务场景自动补充测试点与用例内容 |
+| 🕓 **历史备份** | 版本回溯、审计、恢复 |
+| 🎨 **多主题** | 浅色 / 深色等多主题切换 |
 
-```bash
-cd casemind_front && npm install && npm run build
-```
+### 功能预览
 
-2. 复制配置模板：
+<details>
+<summary><b>1. 用例管理</b> — 状态流转与快捷操作</summary>
 
-```bash
-cp docker/.env.example docker/.env
-```
+<p align="center">
+  <img src="doc/1.用例管理.png" alt="用例管理" width="960" />
+</p>
+</details>
 
-3. 按需修改 `docker/.env` 中的数据库密码、AI 配置和端口映射
+<details>
+<summary><b>2. 用例编辑</b> — 脑图式结构化设计</summary>
 
-4. 启动容器：
+<p align="center">
+  <img src="doc/2.用例编辑.png" alt="用例编辑" width="960" />
+</p>
+</details>
 
-```bash
-cd docker && docker compose up --build -d
-```
+<details>
+<summary><b>3. 用例执行</b> — 实时进度与通过率</summary>
 
-默认访问地址：
+<p align="center">
+  <img src="doc/3.用例执行.png" alt="用例执行" width="960" />
+</p>
+</details>
 
-- 前端页面：`http://localhost:8443/mycasemind-cms/`
-- MySQL 映射端口：`3308`
+<details>
+<summary><b>4. AI 生成用例</b> — 智能补全测试点</summary>
 
-## 项目结构
+<p align="center">
+  <img src="doc/4.用例AI生成.png" alt="用例AI生成" width="960" />
+</p>
+</details>
 
-- `casemind_front`：前端项目，基于 `Umi 2 + React`
-- `casemind_backend`：后端项目，基于 `Spring Boot 2.1.8 + Maven`
+<details>
+<summary><b>5. 历史备份</b> — 版本追溯与恢复</summary>
 
-建议按以下顺序启动：
+<p align="center">
+  <img src="doc/5.历史备份.png" alt="历史备份" width="960" />
+</p>
+</details>
 
-1. 安装&启动MySQL（建议 5.7） ，创建数据库 mycase_manager，利用sql中的脚本配置对应表。创建表脚本路径：casemind-backend/sql/case-manager.sql
-2. 检查并补齐 casemind-backend/src/main/resource `application-dev.properties` 中的数据库账号密码
-3. 启动后端 cd casemind-backend && mvn spring-boot:run
-4. 启动前端 cd casemind-front && npm install && npm run start
-5. ai生成能力（支持 openai 通用接口调用），配置 `casemind_backend/src/main/resources/application-dev.properties` 中的以下参数：
+<details>
+<summary><b>6. 多主题支持</b> — 浅色 / 深色切换</summary>
 
-```properties
-ai.openai.base-url=
-ai.openai.api-key=
-ai.openai.model-name=
-```
+<p align="center">
+  <img src="doc/6.多主题支持.png" alt="多主题支持" width="960" />
+</p>
+</details>
 
-## 环境要求
+---
 
-### 前端
-
-- Node.js（`package.json` 中声明为 `>=12.0.0`）
-- npm
-
-### 后端
-
-- JDK 1.8
-- Maven
-- MySQL
-
-### 架构
+## 🏗 架构
 
 <p align="center">
   <img src="doc/architecture.png" alt="架构" width="960" />
 </p>
 
-## 前端构建与启动
+| 分层 | 技术栈 |
+| --- | --- |
+| 前端 | Umi 2 + React |
+| 后端 | Spring Boot 2.1.8 + Maven |
+| 存储 | MySQL 5.7 |
+| AI 能力 | OpenAI 兼容接口 |
 
-前端目录：
+---
 
-```bash
-cd casemind_front
-```
+## 🚀 快速开始（Docker 一键部署）
 
-安装依赖：
+> 推荐方式，一条命令启动 `frontend + backend + mysql` 三个服务。
 
-```bash
-npm install
-```
+**前置要求**：本机已安装 Docker 与 `docker compose`（macOS/Windows 推荐 Docker Desktop，Linux 安装 Docker Engine + Compose Plugin）。
 
-开发启动：
-
-```bash
-npm start
-```
-
-生产构建：
+**步骤**：
 
 ```bash
-npm run build
+# 1. 构建前端产物
+cd casemind_front && npm install && npm run build && cd ..
+
+# 2. 复制配置模板，并按需修改数据库密码、AI 配置和端口
+cp docker/.env.example docker/.env
+
+# 3. 启动容器
+cd docker && docker compose up --build -d
 ```
 
-## 后端构建与启动
+**默认访问地址**：
 
-后端目录：
+- 前端页面： <http://localhost:8443/mycasemind-cms/>
+- MySQL 端口： `3308`
+
+---
+
+## 🛠 本地开发
+
+### 环境要求
+
+| 组件 | 版本 |
+| --- | --- |
+| Node.js | ≥ 12.0.0 |
+| JDK | 1.8 |
+| Maven | 3.x |
+| MySQL | 5.7（推荐） |
+
+### 1. 初始化数据库
+
+创建数据库 `mycase_manager`，并执行建表脚本：
+
+```bash
+mysql -u root -p mycase_manager < casemind_backend/sql/case-manager.sql
+```
+
+### 2. 配置后端
+
+编辑 `casemind_backend/src/main/resources/application-dev.properties`：
+
+```properties
+# MySQL 连接（默认 127.0.0.1:3306 / mycase_manager / root）
+spring.datasource.username=root
+spring.datasource.password=your_password
+
+# AI 能力（兼容 OpenAI 接口协议）
+ai.openai.base-url=
+ai.openai.api-key=
+ai.openai.model-name=
+```
+
+### 3. 启动后端
 
 ```bash
 cd casemind_backend
-```
-
-开发启动：
-
-```bash
 mvn spring-boot:run
-```
-
-打包：
-
-```bash
+# 或打包后运行
 mvn clean package -DskipTests
-```
-
-打包后运行：
-
-```bash
 java -jar target/mycasemind-webapp.jar
 ```
 
-## 后端依赖配置
+### 4. 启动前端
 
-### MySQL
+```bash
+cd casemind_front
+npm install
+npm start          # 开发模式
+# npm run build    # 生产构建
+```
 
-开发环境连接配置位于 `application-dev.properties`：
+---
 
-- 地址：`127.0.0.1:3306`
-- 数据库：`mycase_manager`
-- 用户名：`root`
-- 密码：需要按本地环境填写
+## 📁 项目结构
 
+```
+KCase/
+├── casemind_front/      # 前端项目（Umi 2 + React）
+├── casemind_backend/    # 后端项目（Spring Boot 2.1.8）
+│   └── sql/             # 建表脚本
+├── docker/              # Docker 部署配置
+└── doc/                 # 截图与架构图
+```
 
+---
 
-## 功能界面预览
+## 🙏 致谢
 
-### 1. 用例管理
-
-用于查看用例列表、状态流转、创建人和操作入口，支持从列表页快速进入执行、编辑和维护流程。
-
-<p align="center">
-  <img src="doc/1.用例管理.png" alt="用例管理" width="960" />
-</p>
-
-### 2. 用例编辑
-
-提供脑图式的测试用例编辑能力，支持节点拆分、标签管理、优先级标记和结构化维护，适合复杂场景下的测试设计。
-
-<p align="center">
-  <img src="doc/2.用例编辑.png" alt="用例编辑" width="960" />
-</p>
-
-### 3. 用例执行
-
-支持执行视图下的用例流转与结果记录，可结合通过率、执行进度和节点状态进行实时跟踪。
-
-<p align="center">
-  <img src="doc/3.用例执行.png" alt="用例执行" width="960" />
-</p>
-
-### 4. 用例 AI 生成
-
-内置 AI 辅助能力，可围绕当前节点或业务场景补充测试点、生成用例内容，并辅助测试设计完善。
-
-<p align="center">
-  <img src="doc/4.用例AI生成.png" alt="用例AI生成" width="960" />
-</p>
-
-### 5. 历史备份
-
-支持查看历史备份记录，便于回溯不同版本的编辑结果，满足追踪、审计和恢复场景。
-
-<p align="center">
-  <img src="doc/5.历史备份.png" alt="历史备份" width="960" />
-</p>
-
-### 6. 多主题支持
-
-支持浅色与深色等多主题界面切换，方便在不同使用场景下获得更舒适的视觉体验。
-
-<p align="center">
-  <img src="doc/6.多主题支持.png" alt="多主题支持" width="960" />
-</p>
-
-用例编辑基础能力基于 [AgileTC](https://github.com/didi/AgileTC) 项目
+用例编辑基础能力基于 [AgileTC](https://github.com/didi/AgileTC) 项目。
