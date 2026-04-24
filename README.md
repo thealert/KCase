@@ -8,12 +8,29 @@
 
 当前仓库已支持通过 Docker 启动 `frontend + backend + mysql` 三个服务。
 
+请先确保本机已安装 Docker 环境，并可正常使用 `docker` 与 `docker compose` 命令（macOS / Windows 推荐直接安装 Docker Desktop；Linux 推荐安装 Docker Engine 与 Docker Compose Plugin，并确保 Docker 服务已启动）。
+
 启动前请先完成以下准备：
 
-1. 构建前端产物：`cd casemind_front && npm install && npm run build`
-2. 复制配置模板：`cp docker/.env.example docker/.env`
+1. 构建前端产物：
+
+```bash
+cd casemind_front && npm install && npm run build
+```
+
+2. 复制配置模板：
+
+```bash
+cp docker/.env.example docker/.env
+```
+
 3. 按需修改 `docker/.env` 中的数据库密码、AI 配置和端口映射
-4. 启动容器：`cd docker && docker compose up --build -d`
+
+4. 启动容器：
+
+```bash
+cd docker && docker compose up --build -d
+```
 
 默认访问地址：
 
