@@ -42,6 +42,9 @@
 <p align="center">
   <img src="doc/2.用例编辑.png" alt="用例编辑" width="960" />
 </p>
+<p align="center">
+  <img src="doc/2.1用例编辑.png" alt="用例编辑" width="960" />
+</p>
 
 #### 3. 用例执行 — 实时进度与通过率
 
