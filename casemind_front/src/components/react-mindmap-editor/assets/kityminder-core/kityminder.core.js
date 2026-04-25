@@ -1852,26 +1852,10 @@ const { nanoid } = require('nanoid');
           for (i = 0; i < nodes.length; i++) {
             node = nodes[i]
             matrix = node.getLayoutTransform()
-            
-            // 性能优化：使用缓存的 TreeBox
-            if (node._cachedTreeBox && !node._treeBoxDirty) {
-              treeBox = node._cachedTreeBox
-              // 性能统计：缓存命中
-              if (typeof window._treeBoxCacheHit === 'undefined') window._treeBoxCacheHit = 0
-              window._treeBoxCacheHit++
-            } else {
-              treeBox = node.getContentBox()
-              if (node.isExpanded() && node.children.length) {
-                treeBox = treeBox.merge(this.getTreeBox(node.children))
-              }
-              // 缓存计算结果
-              node._cachedTreeBox = treeBox
-              node._treeBoxDirty = false
-              // 性能统计：缓存未命中
-              if (typeof window._treeBoxCacheMiss === 'undefined') window._treeBoxCacheMiss = 0
-              window._treeBoxCacheMiss++
+            treeBox = node.getContentBox()
+            if (node.isExpanded() && node.children.length) {
+              treeBox = treeBox.merge(this.getTreeBox(node.children))
             }
-            
             box = box.merge(matrix.transformBox(treeBox))
           }
           return box
@@ -2064,19 +2048,13 @@ const { nanoid } = require('nanoid');
        */
       kity.extendClass(Minder, {
         layout: function () {
-          // 重置缓存统计（可选，用于开发调试）
-          // window._treeBoxCacheHit = 0
-          // window._treeBoxCacheMiss = 0
-          
           let duration = this.getOption('layoutAnimationDuration')
-          
+
           this.getRoot().traverse(function (node) {
             // clear last results
             node.setLayoutTransform(null)
-            // 性能优化：标记 TreeBox 缓存失效
-            node._treeBoxDirty = true
           })
-          
+
           function layoutNode(node, round) {
             // layout all children first
             // 剪枝：收起的节点无需计算
