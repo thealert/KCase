@@ -192,6 +192,12 @@ KCase/
 
 ---
 
+## 📄 License
+
+This project is licensed under the [Apache License 2.0](LICENSE).
+
+---
+
 ## 🙏 致谢
 
 用例编辑基础能力基于 [AgileTC](https://github.com/didi/AgileTC) 项目。
