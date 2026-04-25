@@ -102,6 +102,18 @@ cd docker && docker compose up --build -d
    cd docker && docker compose up -d
 ```
 
+> 如果镜像拉取较慢或超时，建议先配置 Docker 镜像加速地址，再执行启动命令。
+> Docker Desktop 可在 `Settings > Docker Engine` 中添加 `registry-mirrors`，Linux 可编辑 `/etc/docker/daemon.json` 后重启 Docker。
+>
+> ```json
+> {
+>   "registry-mirrors": [
+>     "https://docker.1ms.run",
+>     "https://docker.xuanyuan.me"
+>   ]
+> }
+> ```
+
 **默认访问地址**：
 
 - 前端页面： <http://localhost:8443/mycasemind-cms/>
