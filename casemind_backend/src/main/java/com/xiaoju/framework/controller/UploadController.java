@@ -110,7 +110,7 @@ public class UploadController {
             String fileUrlPath = FileUtil.fileUpload(uploadPath, tempPath.toFile(), file.getOriginalFilename());
 
             response.put("status", "success");
-            response.put("url", buildFileAccessUrl(request, fileUrlPath));
+            response.put("url", FileUtil.buildFileAccessUrl(request, fileUrlPath));
 
         } catch (Exception e) {
             response.put("status", "error");
@@ -137,7 +137,7 @@ public class UploadController {
 
             JSONArray datas = new JSONArray();
             JSONObject data = new JSONObject();
-            data.put("url", buildFileAccessUrl(request, fileUrlPath));
+            data.put("url", FileUtil.buildFileAccessUrl(request, fileUrlPath));
             ret.put("success", 1);
             datas.add(data);
             ret.put("data", datas);
@@ -208,8 +208,4 @@ public class UploadController {
         IOUtils.write(data, response.getOutputStream());
     }
 
-    private String buildFileAccessUrl(HttpServletRequest request, String fileUrlPath) {
-        return request.getScheme() + "://" + request.getServerName()
-                + ":" + request.getServerPort() + "/" + fileUrlPath;
-    }
 }

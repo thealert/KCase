@@ -6,6 +6,7 @@ import com.xiaoju.framework.entity.exception.CaseServerException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -179,6 +180,30 @@ public class FileUtil {
         }
     }
 
+    public static String buildFileAccessUrl(HttpServletRequest request, String fileUrlPath) {
+        String path = fileUrlPath.startsWith("/") ? fileUrlPath : "/" + fileUrlPath;
+        String scheme = firstHeaderValue(request, "X-Forwarded-Proto");
+        if (StringUtils.isEmpty(scheme)) {
+            scheme = request.getScheme();
+        }
+
+        String host = firstHeaderValue(request, "X-Forwarded-Host");
+        if (StringUtils.isEmpty(host)) {
+            host = request.getHeader("Host");
+        }
+        if (StringUtils.isEmpty(host)) {
+            host = request.getServerName();
+        }
+
+        if (!hasPort(host)) {
+            Integer port = resolveRequestPort(request);
+            if (port != null && !isDefaultPort(scheme, port)) {
+                host = host + ":" + port;
+            }
+        }
+        return scheme + "://" + host + path;
+    }
+
     private static File buildUploadTarget(String path, String originalFilename) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
         String format = sdf.format(new Date());
@@ -202,5 +227,42 @@ public class FileUtil {
         String parentPath = targetFile.getParentFile().getParentFile().getName();
         String grandParentPath = targetFile.getParentFile().getParentFile().getParentFile().getName();
         return grandParentPath + "/" + parentPath + "/" + folderPath + "/" + targetFile.getName();
+    }
+
+    private static String firstHeaderValue(HttpServletRequest request, String headerName) {
+        String value = request.getHeader(headerName);
+        if (StringUtils.isEmpty(value)) {
+            return value;
+        }
+        int commaIndex = value.indexOf(",");
+        return commaIndex >= 0 ? value.substring(0, commaIndex).trim() : value.trim();
+    }
+
+    private static Integer resolveRequestPort(HttpServletRequest request) {
+        String forwardedPort = firstHeaderValue(request, "X-Forwarded-Port");
+        if (!StringUtils.isEmpty(forwardedPort)) {
+            try {
+                return Integer.valueOf(forwardedPort);
+            } catch (NumberFormatException ignored) {
+                // Fall back to the servlet request port below.
+            }
+        }
+        int port = request.getServerPort();
+        return port > 0 ? port : null;
+    }
+
+    private static boolean hasPort(String host) {
+        if (StringUtils.isEmpty(host)) {
+            return false;
+        }
+        if (host.startsWith("[")) {
+            return host.contains("]:");
+        }
+        return host.indexOf(":") >= 0;
+    }
+
+    private static boolean isDefaultPort(String scheme, int port) {
+        return ("http".equalsIgnoreCase(scheme) && port == 80)
+                || ("https".equalsIgnoreCase(scheme) && port == 443);
     }
 }

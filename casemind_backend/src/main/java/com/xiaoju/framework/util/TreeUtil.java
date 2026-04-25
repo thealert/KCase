@@ -767,9 +767,7 @@ public class TreeUtil {
             try {
                 multipartFile.transferTo(newFile);
                 // 返回上传文件的访问路径
-                // request.getScheme()可获取请求的协议名，request.getServerName()可获取请求的域名，request.getServerPort()可获取请求的端口号
-                String filePath = requests.getScheme() + "://" + requests.getServerName()
-                        + ":" + requests.getServerPort() + "/" + format + newName;
+                String filePath = FileUtil.buildFileAccessUrl(requests, format + newName);
                 LOGGER.info("filepath的路径为：" + filePath);
                 picPath = filePath;
                 JSONArray datas = new JSONArray();
@@ -854,9 +852,7 @@ public class TreeUtil {
                             String fileUrlPath = FileUtil.fileUpload(uploadPath, multipartFile);
 
                             // 返回上传文件的访问路径
-                            // request.getScheme()可获取请求的协议名，request.getServerName()可获取请求的域名，request.getServerPort()可获取请求的端口号
-                            String filePath = requests.getScheme() + "://" + requests.getServerName()
-                                    + ":" + requests.getServerPort() + "/" + fileUrlPath;
+                            String filePath = FileUtil.buildFileAccessUrl(requests, fileUrlPath);
                             LOGGER.info("filepath的路径为：" + filePath);
                             picPath = filePath;
 
