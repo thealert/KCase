@@ -8,6 +8,22 @@ import { buildAuthHeaders } from '@/utils/authHeaders'
 const getCookies = getQueryString.getCookie
 const getEnvUrlbyKey=envurls.getEnvUrlbyKey
 
+const normalizeImageUrl = url => {
+  if (!url || typeof window === 'undefined') return url;
+  try {
+    const imageUrl = new URL(url, window.location.href);
+    const localHosts = ['localhost', '127.0.0.1', '[::1]'];
+    if (localHosts.includes(imageUrl.hostname) && !localHosts.includes(window.location.hostname)) {
+      imageUrl.protocol = window.location.protocol;
+      imageUrl.hostname = window.location.hostname;
+      return imageUrl.href;
+    }
+  } catch (e) {
+    return url;
+  }
+  return url;
+};
+
 let beforeCopy = null;
 let beforeCut = null;
 let beforePaste = null;
@@ -258,7 +274,7 @@ const ClipboardRuntime = (minder, readOnly) => {
             .then(function (response) {
               message.success('上传成功',1)
              // minder.execCommand('image', '');
-              minder.execCommand('image', response.data.url)
+              minder.execCommand('image', normalizeImageUrl(response.data.url))
             })
             .catch(function (error) {
               message.error('上传失败',2)

@@ -147,8 +147,9 @@ class KityminderEditor extends Component {
     }, 100);
 
     setTimeout(() => {
+      const isiPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
       this.setState({
-        isPad: /iPad|Android.*Tablet/i.test(navigator.userAgent),
+        isPad: /iPad|Android.*Tablet/i.test(navigator.userAgent) || isiPadOS,
         // isPad: true,
       });
     }, 3000);
@@ -349,6 +350,8 @@ class KityminderEditor extends Component {
     document.removeEventListener('keydown', this.handleRecordKeyDown);
     //document.removeEventListener('keyup', this.handleRecordKeyUp);
     clipboardRuntime.removeListener();
+    this.touchPanLastPoint = null;
+    this.isTouchPanning = false;
     // this.heartCheck.reset();
   }
   getAllData = () => {
@@ -1660,62 +1663,52 @@ class KityminderEditor extends Component {
     }));
   };
 
-  handleDirectionClick = (dir) => {
-    if (dir == 'up') {
-      this.minder.execCommand('moveV2', 0, 50);
-    } else if (dir == 'down') {
-      this.minder.execCommand('moveV2', 0, -50);
-    } else if (dir == 'left') {
-      this.minder.execCommand('moveV2', -50, 0);
-    } else if (dir == 'right') {
-      this.minder.execCommand('moveV2', 50, 0);
+  getTouchCenter = touches => {
+    const firstTouch = touches[0];
+    const secondTouch = touches[1];
+    return {
+      x: (firstTouch.clientX + secondTouch.clientX) / 2,
+      y: (firstTouch.clientY + secondTouch.clientY) / 2,
+    };
+  };
+
+  stopTouchPanEvent = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.nativeEvent) {
+      e.nativeEvent.stopImmediatePropagation && e.nativeEvent.stopImmediatePropagation();
     }
   };
 
-  // 长按开始
-  handleLongPressStart = (dir, e) => {
-    // 阻止事件冒泡和默认行为
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+  handleTouchPanStart = e => {
+    if (!this.state.isPad || !this.minder || e.touches.length !== 2) return;
 
-    // 清除之前的定时器
-    if (this.longPressTimer) {
-      clearTimeout(this.longPressTimer);
-      this.longPressTimer = null;
-    }
-    if (this.longPressInterval) {
-      clearInterval(this.longPressInterval);
-      this.longPressInterval = null;
-    }
-
-    // 第一次点击立即执行
-    this.handleDirectionClick(dir);
-
-    // 延迟200ms后开始持续执行
-    this.longPressTimer = setTimeout(() => {
-      this.longPressInterval = setInterval(() => {
-        this.handleDirectionClick(dir);
-      }, 200); // 每200ms执行一次
-    }, 200); // 按下200ms后开始重复
+    this.stopTouchPanEvent(e);
+    this.isTouchPanning = true;
+    this.touchPanLastPoint = this.getTouchCenter(e.touches);
   };
 
-  // 长按结束
-  handleLongPressEnd = (e) => {
-    // 阻止事件冒泡和默认行为
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+  handleTouchPanMove = e => {
+    if (!this.isTouchPanning || !this.minder || e.touches.length !== 2) return;
 
-    if (this.longPressTimer) {
-      clearTimeout(this.longPressTimer);
-      this.longPressTimer = null;
+    this.stopTouchPanEvent(e);
+    const currentPoint = this.getTouchCenter(e.touches);
+    const offsetX = currentPoint.x - this.touchPanLastPoint.x;
+    const offsetY = currentPoint.y - this.touchPanLastPoint.y;
+
+    if (offsetX || offsetY) {
+      this.minder.execCommand('moveV2', offsetX, offsetY);
     }
-    if (this.longPressInterval) {
-      clearInterval(this.longPressInterval);
-      this.longPressInterval = null;
+    this.touchPanLastPoint = currentPoint;
+  };
+
+  handleTouchPanEnd = e => {
+    if (!this.isTouchPanning) return;
+
+    this.stopTouchPanEvent(e);
+    if (e.touches.length < 2) {
+      this.isTouchPanning = false;
+      this.touchPanLastPoint = null;
     }
   };
 
@@ -2169,6 +2162,10 @@ class KityminderEditor extends Component {
             </div>)}
           <div
             className="kityminder-core-container"
+            onTouchStartCapture={this.handleTouchPanStart}
+            onTouchMoveCapture={this.handleTouchPanMove}
+            onTouchEndCapture={this.handleTouchPanEnd}
+            onTouchCancelCapture={this.handleTouchPanEnd}
             ref={input => {
               if (!this.minder) {
                 this.minder = new window.kityminder.Minder({
@@ -2181,6 +2178,7 @@ class KityminderEditor extends Component {
             }}
             style={{
               height: `calc(100% - 45px - ${showToolBar ? '80px' : '0px'})`,
+              touchAction: this.state.isPad ? 'none' : undefined,
             }}
           >
             {loading && <Spin className="agiletc-loader" />}
@@ -2323,76 +2321,6 @@ class KityminderEditor extends Component {
                 &nbsp;
                 <Button style={{ borderColor: theme == 'dark' ? '#3c3c3c' : '', backgroundColor: theme == 'dark' ? '#3c3c3c' : 'white', color: theme == 'dark' ? '#d5d5d5' : 'rgba(0, 0, 0, 0.7)' }} onClick={this.goBack}>返回</Button>
 
-              </div>
-            )
-          }
-
-          {
-            this.props.recordId === "undefined" && !historyId && this.state.isPad && (
-              <div>
-                <div
-                  style={{
-                    position: 'fixed',
-                    right: '40px',
-                    bottom: '80px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    zIndex: 9999,
-                  }}>
-                  {/* 上面按钮 */}
-                  <Button shape="circle"
-                    onMouseDown={(e) => this.handleLongPressStart('up', e)}
-                    onMouseUp={(e) => this.handleLongPressEnd(e)}
-                    onMouseLeave={(e) => this.handleLongPressEnd(e)}
-                    onTouchStart={(e) => this.handleLongPressStart('up', e)}
-                    onTouchEnd={(e) => this.handleLongPressEnd(e)}
-                    style={{ marginBottom: '5px' }}>
-                    <Icon type="up" />
-                  </Button>
-
-                  <div style={{ display: 'flex' }}>
-                    {/* 左右按钮 */}
-                    <Button shape="circle"
-                      onMouseDown={(e) => this.handleLongPressStart('left', e)}
-                      onMouseUp={(e) => this.handleLongPressEnd(e)}
-                      onMouseLeave={(e) => this.handleLongPressEnd(e)}
-                      onTouchStart={(e) => this.handleLongPressStart('left', e)}
-                      onTouchEnd={(e) => this.handleLongPressEnd(e)}
-                      style={{ marginRight: '10px' }}>
-                      <Icon type="left" />
-                    </Button>
-                    <Button shape="circle"
-                      onMouseDown={(e) => this.handleLongPressStart('right', e)}
-                      onMouseUp={(e) => this.handleLongPressEnd(e)}
-                      onMouseLeave={(e) => this.handleLongPressEnd(e)}
-                      onTouchStart={(e) => this.handleLongPressStart('right', e)}
-                      onTouchEnd={(e) => this.handleLongPressEnd(e)}
-                      style={{ marginLeft: '10px' }}>
-                      <Icon type="right" />
-                    </Button>
-                  </div>
-
-                  {/* 下面按钮 */}
-                  <Button shape="circle"
-                    onMouseDown={(e) => this.handleLongPressStart('down', e)}
-                    onMouseUp={(e) => this.handleLongPressEnd(e)}
-                    onMouseLeave={(e) => this.handleLongPressEnd(e)}
-                    onTouchStart={(e) => this.handleLongPressStart('down', e)}
-                    onTouchEnd={(e) => this.handleLongPressEnd(e)}
-                    style={{ marginTop: '5px' }}>
-                    <Icon type="down" />
-                  </Button>
-                </div>
-                {/* <Fab
-              mainButtonStyles={{ color: 'grey', backgroundColor: '#fff', width: 40, height: 40 }}
-              style={{ bottom: 60, right: 10 }}
-              icon={<Tooltip title="AI助手"> <img src={aiIcon} alt="home" style={{width: 20, height: 20,position: 'relative',top: -3}} /></Tooltip>}
-              event={'click'}
-              onClick={() => { this.toggleDifyChat()}}
-            >
-             
-            </Fab> */}
               </div>
             )
           }
