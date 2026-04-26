@@ -6235,24 +6235,6 @@ const { nanoid } = require('nanoid');
       let Module = _p.r(20)
       let Renderer = _p.r(27)
       Module.register('image', function () {
-        function normalizeImageUrl(url) {
-          if (!url || typeof window === 'undefined') return url
-          try {
-            let imageUrl = new URL(url, window.location.href)
-            let localHosts = ['localhost', '127.0.0.1', '[::1]']
-            if (
-              localHosts.indexOf(imageUrl.hostname) > -1 &&
-              localHosts.indexOf(window.location.hostname) === -1
-            ) {
-              imageUrl.protocol = window.location.protocol
-              imageUrl.hostname = window.location.hostname
-              return imageUrl.href
-            }
-          } catch (e) {
-            return url
-          }
-          return url
-        }
         function loadImageSize(url, callback) {
           let img = document.createElement('img')
           img.onload = function () {
@@ -6261,7 +6243,7 @@ const { nanoid } = require('nanoid');
           img.onerror = function () {
             callback(null)
           }
-          img.src = normalizeImageUrl(url)
+          img.src = url
         }
         function fitImageSize(width, height, maxWidth, maxHeight) {
           let ratio = width / height,
@@ -6293,7 +6275,6 @@ const { nanoid } = require('nanoid');
         let ImageCommand = kity.createClass('ImageCommand', {
           base: Command,
           execute: function (km, url, title, newWidth, newHeight) {
-            url = normalizeImageUrl(url)
             let nodes = km.getSelectedNodes()
             loadImageSize(url, function (width, height) {
               nodes.forEach(function (n) {
@@ -6388,7 +6369,7 @@ const { nanoid } = require('nanoid');
             //console.log(this.resizeHandle.style.left, this.resizeHandle.style.top)
           },
           create: function (node) {
-            let img = new kity.Image(normalizeImageUrl(node.getData('image')))
+            let img = new kity.Image(node.getData('image'))
             var self = this;
             let lastTimestamp = 0;
             // image.node.addEventListener('dblclick', this.handleEventWrapper(node))
@@ -6450,7 +6431,7 @@ const { nanoid } = require('nanoid');
               }
 
               if (self.previewImage.style.display === 'none') {
-                self.previewImage.src = normalizeImageUrl(node.getData('image')) // 假设 imageNode 是 <img> 元素
+                self.previewImage.src = node.getData('image') // 假设 imageNode 是 <img> 元素
                 self.previewImage.style.display = 'block'
               } else {
                 self.previewImage.style.display = 'none'
@@ -6588,7 +6569,7 @@ const { nanoid } = require('nanoid');
 
 
           update: function (image, node, box) {
-            let url = normalizeImageUrl(node.getData('image'))
+            let url = node.getData('image')
             let title = node.getData('imageTitle')
             let size = node.getData('imageSize')
             let spaceTop = node.getStyle('space-top')

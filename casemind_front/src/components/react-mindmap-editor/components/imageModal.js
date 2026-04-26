@@ -7,22 +7,6 @@ const getCookies = getQueryString.getCookie
 const getEnvUrlbyKey=envurls.getEnvUrlbyKey
 import { Modal, Form, Input, Radio, Upload, Button, Icon,message,Slider,InputNumber,Row } from 'antd';
 
-const normalizeImageUrl = url => {
-  if (!url || typeof window === 'undefined') return url;
-  try {
-    const imageUrl = new URL(url, window.location.href);
-    const localHosts = ['localhost', '127.0.0.1', '[::1]'];
-    if (localHosts.includes(imageUrl.hostname) && !localHosts.includes(window.location.hostname)) {
-      imageUrl.protocol = window.location.protocol;
-      imageUrl.hostname = window.location.hostname;
-      return imageUrl.href;
-    }
-  } catch (e) {
-    return url;
-  }
-  return url;
-};
-
 const ImageModal = (props) => {
   const defaultObj = props.minder.queryCommandValue('Image');
   const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
@@ -68,7 +52,6 @@ const ImageModal = (props) => {
       console.log(params)
 
       if(params.url && params.url!==""){
-        params.url = normalizeImageUrl(params.url);
         if(params.imageSizeWidth && params.imageSizeHeight){
           
           minder.execCommand('image', params.url, params.title,params.imageSizeWidth,params.imageSizeHeight);
@@ -80,7 +63,7 @@ const ImageModal = (props) => {
       else{
         for(var i=0;i<params.upload.length;i++){
           //console.log(params.upload[i])
-          minder.execCommand('image', normalizeImageUrl(params.upload[i].thumbUrl), params.title);
+          minder.execCommand('image', params.upload[i].thumbUrl, params.title);
         }
       }
         
@@ -103,7 +86,7 @@ const ImageModal = (props) => {
     if (e.file.status === 'done') {
       const { response = {} } = e.file;
       
-      setFieldsValue({ url: response ? normalizeImageUrl(response) : '' });
+      setFieldsValue({ url: response ? response : '' });
       
     }
   };
@@ -136,7 +119,7 @@ const ImageModal = (props) => {
         .then(function (response) {
           console.log('Success:', response.data);
          
-          onSuccess(normalizeImageUrl(response.data.url)); 
+          onSuccess(response.data.url); 
           setUploadFinish(true)
           
         })
