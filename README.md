@@ -95,7 +95,7 @@
 
 ### 方式一：拉取预构建镜像（推荐，无需克隆仓库）
 
-镜像已发布到 GitHub Container Registry：`ghcr.io/thealert/kcase-{frontend,backend,mysql}`。
+镜像默认从 Docker Hub 拉取：`docker.io/thealert/kcase-{frontend,backend,mysql}`，同时也发布到 GitHub Container Registry：`ghcr.io/thealert/kcase-{frontend,backend,mysql}`。
 
 ```bash
 mkdir kcase && cd kcase
@@ -116,6 +116,7 @@ docker compose up -d
 ```
 
 > 想锁定版本：在 `.env` 中设置 `KCASE_TAG=v1.0.0` 或 `KCASE_TAG=sha-abcdef0`，默认 `latest`。
+> 如需使用 GHCR，可在 `.env` 中把 `KCASE_REGISTRY` 改成 `ghcr.io/thealert`，再执行 `docker compose pull`。
 
 ### 方式二：源码本地构建（开发者）
 

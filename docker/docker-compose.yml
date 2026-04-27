@@ -1,7 +1,7 @@
 services:
   mysql:
     platform: linux/amd64
-    image: ghcr.io/thealert/kcase-mysql:${KCASE_TAG:-latest}
+    image: ${KCASE_REGISTRY:-docker.io/thealert}/kcase-mysql:${KCASE_TAG:-latest}
     build:
       context: ..
       dockerfile: docker/mysql.Dockerfile
@@ -26,7 +26,7 @@ services:
 
   backend:
     platform: linux/amd64
-    image: ghcr.io/thealert/kcase-backend:${KCASE_TAG:-latest}
+    image: ${KCASE_REGISTRY:-docker.io/thealert}/kcase-backend:${KCASE_TAG:-latest}
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -55,7 +55,7 @@ services:
 
   frontend:
     platform: linux/amd64
-    image: ghcr.io/thealert/kcase-frontend:${KCASE_TAG:-latest}
+    image: ${KCASE_REGISTRY:-docker.io/thealert}/kcase-frontend:${KCASE_TAG:-latest}
     build:
       context: ..
       dockerfile: docker/frontend.Dockerfile
