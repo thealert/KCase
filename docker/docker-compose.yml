@@ -25,6 +25,7 @@ services:
       retries: 12
 
   backend:
+    platform: linux/amd64
     image: ghcr.io/thealert/kcase-backend:${KCASE_TAG:-latest}
     build:
       context: ..
@@ -53,6 +54,7 @@ services:
       - kcase_uploads:/data/uploads
 
   frontend:
+    platform: linux/amd64
     image: ghcr.io/thealert/kcase-frontend:${KCASE_TAG:-latest}
     build:
       context: ..
