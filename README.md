@@ -89,20 +89,50 @@
 
 ## 🚀 快速开始（Docker 一键部署）
 
-> 推荐方式，一条命令启动 `frontend + backend + mysql` 三个服务。
+> 一条命令启动 `frontend + backend + mysql` 三个服务。
 
 **前置要求**：本机已安装 Docker 与 `docker compose`（macOS/Windows 推荐 Docker Desktop，Linux 安装 Docker Engine + Compose Plugin）。
 
-**步骤**：
+### 方式一：拉取预构建镜像（推荐，无需克隆仓库）
+
+镜像已发布到 GitHub Container Registry：`ghcr.io/thealert/kcase-{frontend,backend,mysql}`。
 
 ```bash
-# 1. 复制配置模板，并按需修改数据库密码、AI 配置（可选）和端口（可选）
+mkdir kcase && cd kcase
+
+# 1. 下载 compose 文件和 .env 模板
+curl -O https://raw.githubusercontent.com/thealert/KCase/main/docker/docker-compose.yml
+curl -o .env https://raw.githubusercontent.com/thealert/KCase/main/docker/.env.example
+
+# 2. 编辑 .env：必改 MYSQL_ROOT_PASSWORD 和 MYSQL_PASSWORD（二者必须一致）
+vim .env
+
+# 3. 拉镜像并启动
+docker compose pull
+docker compose up -d
+
+# 后续运行
+docker compose up -d
+```
+
+> 想锁定版本：在 `.env` 中设置 `KCASE_TAG=v1.0.0` 或 `KCASE_TAG=sha-abcdef0`，默认 `latest`。
+
+### 方式二：源码本地构建（开发者）
+
+```bash
+# 1. 克隆并构建前端产物
+git clone https://github.com/thealert/KCase.git
+cd KCase
+cd casemind_front && npm install && npm run build && cd ..
+
+# 2. 复制配置模板，并按需修改数据库密码、AI 配置（可选）和端口（可选）
 cp docker/.env.example docker/.env
 
-# 2. 启动容器
+# 3. 启动容器（首次会本地构建镜像）
 cd docker && docker compose up --build -d
-#  2.1 后续运行
-   cd docker && docker compose up -d
+
+# 后续运行
+docker compose up -d
 ```
 
 > 如果镜像拉取较慢或超时，建议先配置 Docker 镜像加速地址，再执行启动命令。
