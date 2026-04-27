@@ -1,7 +1,10 @@
 services:
   mysql:
     platform: linux/amd64
-    image: mysql:5.7
+    image: ghcr.io/thealert/kcase-mysql:${KCASE_TAG:-latest}
+    build:
+      context: ..
+      dockerfile: docker/mysql.Dockerfile
     container_name: kcase-mysql
     restart: unless-stopped
     environment:
@@ -15,7 +18,6 @@ services:
       - "${MYSQL_PORT}:3306"
     volumes:
       - kcase_mysql_data:/var/lib/mysql
-      - ../casemind_backend/sql/case_manager.sql:/docker-entrypoint-initdb.d/01-case_manager.sql:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
@@ -23,6 +25,7 @@ services:
       retries: 12
 
   backend:
+    image: ghcr.io/thealert/kcase-backend:${KCASE_TAG:-latest}
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -50,6 +53,7 @@ services:
       - kcase_uploads:/data/uploads
 
   frontend:
+    image: ghcr.io/thealert/kcase-frontend:${KCASE_TAG:-latest}
     build:
       context: ..
       dockerfile: docker/frontend.Dockerfile
