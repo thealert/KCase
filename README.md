@@ -124,7 +124,6 @@ docker compose up -d
 # 1. 克隆并构建前端产物
 git clone https://github.com/thealert/KCase.git
 cd KCase
-cd casemind_front && npm install && npm run build && cd ..
 
 # 2. 复制配置模板，并按需修改数据库密码、AI 配置（可选）和端口（可选）
 cp docker/.env.example docker/.env
